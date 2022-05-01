@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'json'
+require 'active_support/json'
 
 RSpec.describe Logcraft::LogLayout do
   before(:all) { Logging.init unless Logging.initialized? }
