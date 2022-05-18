@@ -1,4 +1,8 @@
 class TestController < ApplicationController
+  def access
+    head :ok
+  end
+
   def basic
     logger.info message: 'test message', data: 12345
   end
