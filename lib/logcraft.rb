@@ -7,6 +7,7 @@ require 'logcraft/railtie'
 
 module Logcraft
   autoload :LogLayout, 'logcraft/log_layout'
+  autoload :Rails, 'logcraft/rails'
 
   def self.logger(name)
     Logging::Logger[name]
