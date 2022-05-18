@@ -9,7 +9,7 @@ module Logcraft
   autoload :LogLayout, 'logcraft/log_layout'
   autoload :Rails, 'logcraft/rails'
 
-  def self.logger(name)
-    Logging::Logger[name]
+  def self.logger(name, level = :info)
+    Logging::Logger[name].tap { |logger| logger.level = level }
   end
 end

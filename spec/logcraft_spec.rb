@@ -8,9 +8,20 @@ RSpec.describe Logcraft do
   describe '.logger' do
     subject(:logger) { Logcraft.logger 'TestLogger' }
 
-    it 'returns a Logging logger with the specified name' do
+    before(:all) { Logging.init unless Logging.initialized? }
+
+    it 'returns a Logging logger with the specified name and the default INFO log level' do
       expect(logger).to be_a Logging::Logger
       expect(logger.name).to eq 'TestLogger'
+      expect(logger.level).to eq Logging::LEVELS['info']
+    end
+
+    context 'when a log level is specified' do
+      subject(:logger) { Logcraft.logger 'TestLogger', :debug }
+
+      it 'returns a logger with the specified log level' do
+        expect(logger.level).to eq Logging::LEVELS['debug']
+      end
     end
   end
 end
