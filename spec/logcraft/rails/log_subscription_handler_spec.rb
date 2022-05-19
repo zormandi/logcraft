@@ -7,8 +7,8 @@ if Rails::VERSION::MAJOR == 5
     describe '.detach' do
       subject(:detach) { described_class.detach ActionController::LogSubscriber }
 
-      after do
-        ActionController::LogSubscriber.attach_to :action_controller
+      before do
+        ActionController::LogSubscriber.attach_to(:action_controller) if listeners_for("process_action.action_controller").count == 0
       end
 
       ActionController::LogSubscriber.new.public_methods(false).each do |event|
