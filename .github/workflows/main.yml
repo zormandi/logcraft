@@ -1,4 +1,4 @@
-name: Ruby
+name: Run tests
 
 on:
   push:
@@ -16,6 +16,8 @@ jobs:
         ruby:
           - '2.6'
           - '2.7'
+          - '3.0'
+          - '3.1'
         rails:
           - '5.2'
           - '6.0'
@@ -23,6 +25,14 @@ jobs:
         exclude:
           - ruby: '2.7'
             rails: '5.2'
+          - ruby: '3.0'
+            rails: '5.2'
+          - ruby: '3.0'
+            rails: '6.0'
+          - ruby: '3.1'
+            rails: '5.2'
+          - ruby: '3.1'
+            rails: '6.0'
 
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails }}.gemfile
