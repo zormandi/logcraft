@@ -5,6 +5,10 @@ RSpec.describe Logcraft do
     expect(Logcraft::VERSION).not_to be nil
   end
 
+  it 'includes the LogContextHelper methods' do
+    expect(Logcraft).to be_a Logcraft::LogContextHelper
+  end
+
   describe '.logger' do
     subject(:logger) { Logcraft.logger 'TestLogger' }
 

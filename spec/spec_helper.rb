@@ -2,6 +2,7 @@
 
 require 'logcraft'
 require 'logcraft/rspec'
+require 'active_support/json'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
