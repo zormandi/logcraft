@@ -27,6 +27,7 @@ module Logcraft
                                           Logcraft.logger(config.logcraft.access_log.logger_name),
                                           config.logcraft.access_log
       app.config.middleware.delete ::Rails::Rack::Logger
+      app.config.middleware.insert_after ::ActionDispatch::RequestId, Logcraft::Rails::RequestIdLogger
     end
 
     config.after_initialize do

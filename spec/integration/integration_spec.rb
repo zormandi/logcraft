@@ -3,14 +3,25 @@
 require 'rails_helper'
 
 RSpec.describe 'Rails log output', type: :request do
-  it 'contains all relevant information about the request in a single line' do
-    get '/access'
+  describe 'access log' do
+    it 'contains all relevant information about the request in a single line' do
+      get '/access'
 
-    expect(log_output.length).to eq 1
-    log_output_is_expected.to include_log_message logger: 'AccessLog', message: 'GET /access - 200 (OK)'
+      expect(log_output.length).to eq 1
+      log_output_is_expected.to include_log_message logger: 'AccessLog',
+                                                    message: 'GET /access - 200 (OK)'
+    end
   end
 
-  it 'contains the custom log message in a structured format with all fields' do
-    expect { get '/basic' }.to log(message: 'test message', data: 12345).at_level :info
+  describe 'manual logging' do
+    it 'contains the custom log message in a structured format with all fields' do
+      expect { get '/basic' }.to log logger: 'Application',
+                                     message: 'test message',
+                                     data: 12345
+    end
+
+    it 'contains the id of the request automatically' do
+      expect { get '/basic', headers: {'X-Request-Id': 'test-request-id'} }.to log request_id: 'test-request-id'
+    end
   end
 end
