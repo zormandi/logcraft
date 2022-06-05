@@ -2,7 +2,7 @@
 
 RSpec.describe Logcraft::Rails::RequestLogger do
   let(:middleware) { described_class.new app, Logcraft.logger('AccessLog'), config }
-  let(:config) { ActiveSupport::InheritableOptions.new config_options }
+  let(:config) { OpenStruct.new config_options }
   let(:config_options) do
     {
       log_only_whitelisted_params: false,

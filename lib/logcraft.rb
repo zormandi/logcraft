@@ -3,7 +3,7 @@
 require 'logging'
 
 require 'logcraft/version'
-require 'logcraft/railtie'
+require 'logcraft/railtie' if defined? Rails
 
 module Logcraft
   autoload :LogContextHelper, 'logcraft/log_context_helper'
