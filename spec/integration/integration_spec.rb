@@ -24,4 +24,18 @@ RSpec.describe 'Rails log output', type: :request do
       expect { get '/basic', headers: {'X-Request-Id': 'test-request-id'} }.to log request_id: 'test-request-id'
     end
   end
+
+  describe 'database query logs' do
+    around do |spec|
+      original_log_level = ActiveRecord::Base.logger.level
+      ActiveRecord::Base.logger.level = :debug
+      spec.run
+      ActiveRecord::Base.logger.level = original_log_level
+    end
+
+    it 'contains log messages for SQL queries' do
+      expect { get '/sql' }.to log logger: 'Application',
+                                   sql: 'SELECT 1'
+    end
+  end
 end

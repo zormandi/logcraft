@@ -35,11 +35,19 @@ module Logcraft
       when 5
         Logcraft::Rails::LogSubscriptionHandler.detach ::ActionController::LogSubscriber
         Logcraft::Rails::LogSubscriptionHandler.detach ::ActionView::LogSubscriber
+        if defined? ::ActiveRecord
+          Logcraft::Rails::LogSubscriber.detach ::ActiveRecord::LogSubscriber
+          Logcraft::Rails::ActiveRecord::LogSubscriber.attach_to :active_record
+        end
       else
         ::ActionController::LogSubscriber.detach_from :action_controller
         if defined? ::ActionView
           require 'action_view/log_subscriber' unless defined? ::ActionView::LogSubscriber
           ::ActionView::LogSubscriber.detach_from :action_view
+        end
+        if defined? ::ActiveRecord
+          ::ActiveRecord::LogSubscriber.detach_from :active_record
+          Logcraft::Rails::ActiveRecord::LogSubscriber.attach_to :active_record
         end
       end
     end
