@@ -23,6 +23,10 @@ RSpec.describe 'Rails log output', type: :request do
     it 'contains the id of the request automatically' do
       expect { get '/basic', headers: {'X-Request-Id': 'test-request-id'} }.to log request_id: 'test-request-id'
     end
+
+    it 'contains the custom initial context set in the application configuration' do
+      expect { get '/basic' }.to log custom: 'data'
+    end
   end
 
   describe 'database query logs' do

@@ -15,10 +15,9 @@ module Logcraft
     config.logcraft.access_log.whitelisted_params = [:controller, :action]
 
     initializer 'logcraft.configure_logging' do |app|
-      log_layout = Logcraft::LogLayout.new app.config.logcraft.initial_context,
-                                           app.config.logcraft.layout_options
-      Logging.logger.root.appenders = Logging.appenders.stdout layout: log_layout
-      Logging.logger.root.level = app.config.log_level
+      Logcraft.initialize log_level: app.config.log_level,
+                          initial_context: app.config.logcraft.initial_context,
+                          layout_options: app.config.logcraft.layout_options
     end
 
     initializer 'ezlog.configure_rails_middlewares' do |app|
