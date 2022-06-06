@@ -17,7 +17,7 @@ module Logcraft
     Logging.logger.root.level = log_level
   end
 
-  def self.logger(name, level = :info)
-    Logging::Logger[name].tap { |logger| logger.level = level }
+  def self.logger(name, level = nil)
+    Logging::Logger[name].tap { |logger| logger.level = level if level }
   end
 end

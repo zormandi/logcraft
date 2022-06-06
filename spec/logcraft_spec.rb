@@ -14,17 +14,18 @@ RSpec.describe Logcraft do
 
     before(:all) { Logging.init unless Logging.initialized? }
 
-    it 'returns a Logging logger with the specified name and the default INFO log level' do
+    it 'returns a Logging logger with the specified name and the default log level' do
+      default_log_level = Logging.logger.root.level
       expect(logger).to be_a Logging::Logger
       expect(logger.name).to eq 'TestLogger'
-      expect(logger.level).to eq Logging::LEVELS['info']
+      expect(logger.level).to eq default_log_level
     end
 
     context 'when a log level is specified' do
-      subject(:logger) { Logcraft.logger 'TestLogger', :debug }
+      subject(:logger) { Logcraft.logger 'TestLogger', :fatal }
 
       it 'returns a logger with the specified log level' do
-        expect(logger.level).to eq Logging::LEVELS['debug']
+        expect(logger.level).to eq Logging::LEVELS['fatal']
       end
     end
   end
