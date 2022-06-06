@@ -46,5 +46,7 @@ jobs:
         bundler-cache: true
     - name: Generate Rails app
       run: bin/setup
-    - name: Run the tests
-      run: bundle exec rake
+    - name: Run unit tests
+      run: bundle exec rake spec:unit
+    - name: Run integration tests
+      run: bundle exec rake spec:integration
