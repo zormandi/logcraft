@@ -21,7 +21,7 @@ module Logcraft
     end
 
     initializer 'logcraft.configure_rails' do |app|
-      # require 'logcraft/rails/extensions'
+      require 'logcraft/rails/extensions'
       app.config.middleware.insert_before ::Rails::Rack::Logger,
                                           Logcraft::Rails::RequestLogger,
                                           Logcraft.logger(config.logcraft.access_log.logger_name),
