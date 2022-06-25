@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   get '/access' => "test#access"
   get '/basic' => "test#basic"
   get '/sql' => "test#sql"
+  get '/error' => "test#error"
 end

@@ -42,4 +42,12 @@ RSpec.describe 'Rails log output', type: :request do
                                    sql: 'SELECT 1'
     end
   end
+
+  describe 'unhandled error logging' do
+    it 'contains unhandled error log messages in a structured format' do
+      expect { get '/error' }.to log logger: 'Application',
+                                     level: 'FATAL',
+                                     message: 'Unhandled error'
+    end
+  end
 end

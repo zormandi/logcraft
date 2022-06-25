@@ -14,13 +14,14 @@ module Logcraft
     config.logcraft.access_log.log_only_whitelisted_params = false
     config.logcraft.access_log.whitelisted_params = [:controller, :action]
 
-    initializer 'logcraft.configure_logging' do |app|
+    initializer 'logcraft.initialize' do |app|
       Logcraft.initialize log_level: app.config.log_level,
                           initial_context: app.config.logcraft.initial_context,
                           layout_options: app.config.logcraft.layout_options
     end
 
-    initializer 'ezlog.configure_rails_middlewares' do |app|
+    initializer 'logcraft.configure_rails' do |app|
+      # require 'logcraft/rails/extensions'
       app.config.middleware.insert_before ::Rails::Rack::Logger,
                                           Logcraft::Rails::RequestLogger,
                                           Logcraft.logger(config.logcraft.access_log.logger_name),

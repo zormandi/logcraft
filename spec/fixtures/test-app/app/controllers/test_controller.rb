@@ -11,4 +11,8 @@ class TestController < ApplicationController
     ActiveRecord::Base.connection.query 'SELECT 1'
     head :ok
   end
+
+  def error
+    raise 'Unhandled error'
+  end
 end
