@@ -2,8 +2,11 @@
 
 [![Build Status](https://github.com/zormandi/logcraft/actions/workflows/main.yml/badge.svg)](https://github.com/zormandi/logcraft/actions/workflows/main.yml)
 
-Logcraft is a zero-configuration structured logging library for pure Ruby or [Ruby on Rails](https://rubyonrails.org/) projects.
-It's purpose is threefold:
+Logcraft is a zero-configuration structured logging library for pure Ruby or [Ruby on Rails](https://rubyonrails.org/) applications.
+It is the successor to [Ezlog](https://github.com/emartech/ezlog) with which it shares its ideals but is reimagined and
+reimplemented to be more versatile and much more thoroughly tested.
+
+Logcraft's purpose is threefold:
 1. Make sure that our applications are logging in a concise and sensible manner; emitting no unnecessary "noise" but
    containing all relevant and necessary information (like timing or a request ID).
 2. Make sure that all log messages are written to STDOUT in a machine-processable format (JSON).
@@ -247,7 +250,7 @@ Logcraft.initialize log_level: :info, initial_context: {}, layout_options: {}
 
 ## Integration with DataDog
 
-You can set up tracing with DataDog by providing an initial context to be included in every log message:
+You can set up tracing with [DataDog](https://www.datadoghq.com/) by providing an initial context to be included in every log message:
 
 ```ruby
 config.logcraft.initial_context = {
