@@ -8,14 +8,14 @@ Gem::Specification.new do |spec|
   spec.authors = ["Zoltan Ormandi"]
   spec.email = ["zoltan.ormandi@gmail.com"]
 
-  spec.summary = "A zero-configuration logging solution for Ruby on Rails."
+  spec.summary = "A zero-configuration structured logging solution for pure Ruby or Ruby on Rails projects."
   spec.homepage = "https://github.com/zormandi/logcraft"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/zormandi/logcraft"
-  spec.metadata["changelog_uri"] = "https://github.com/zormandi/logcraft/blob/master/CHANGELOG.md"
+  spec.metadata["changelog_uri"] = "https://github.com/zormandi/logcraft/blob/main/CHANGELOG.md"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
