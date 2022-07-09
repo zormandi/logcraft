@@ -210,7 +210,7 @@ Configuration section).
 The logger's log level is determined as follows (in order of precedence):
 
 * the log level set in the application's configuration (for Rails applications),
-* the LOG_LEVEL environment variable, or
+* the `LOG_LEVEL` environment variable, or
 * `INFO` as the default log level if none of the above are set.
 
 The following log levels are available: `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`.
@@ -273,7 +273,7 @@ every log message:
 
 ```ruby
 config.logcraft.global_context = -> do
-  return unless Datadog::Tracing.enabled?
+  return {} unless Datadog::Tracing.enabled?
 
   correlation = Datadog::Tracing.correlation
   {
