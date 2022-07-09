@@ -4,13 +4,13 @@ require 'time'
 
 module Logcraft
   class LogLayout < Logging::Layout
-    def initialize(context = {}, options = {})
-      @general_context = context
+    def initialize(global_context = {}, options = {})
+      @global_context = global_context
       @level_formatter = options.fetch :level_formatter, ->(level) { Logging::LNAMES[level] }
     end
 
     def format(event)
-      log_entry = background_of(event).merge evaluated_general_context,
+      log_entry = background_of(event).merge evaluated_global_context,
                                              dynamic_log_context,
                                              message_from(event.data)
       MultiJson.dump(log_entry) + "\n"
@@ -28,8 +28,12 @@ module Logcraft
       }
     end
 
-    def evaluated_general_context
-      @general_context.transform_values { |v| v.is_a?(Proc) ? v.call : v }
+    def evaluated_global_context
+      if @global_context.respond_to? :call
+        @global_context.call
+      else
+        @global_context
+      end
     end
 
     def dynamic_log_context
@@ -52,8 +56,7 @@ module Logcraft
     end
 
     def format_exception(exception)
-      error_hash = {'class' => exception.class.name,
-                    'message' => exception.message}
+      error_hash = {'class' => exception.class.name, 'message' => exception.message}
       error_hash['backtrace'] = exception.backtrace.first(20) if exception.backtrace
       error_hash['cause'] = format_cause(exception.cause) if exception.cause
       error_hash

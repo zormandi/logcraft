@@ -132,19 +132,18 @@ RSpec.describe Logcraft::LogLayout do
       end
     end
 
-    context 'when a general context is provided upon initialization' do
+    context 'when a global context is provided upon initialization' do
       let(:context) { {context: 'data'} }
 
-      it 'includes the general context fields' do
+      it 'includes the global context fields' do
         expect(log_line_hash).to include 'context' => 'data'
       end
 
-      context 'when the general context includes a lambda or a Proc' do
-        let(:context) { {lambda: -> { 'lambda data' }, proc: Proc.new { 'proc data' }} }
+      context 'when the global context is callable (lambda or Proc)' do
+        let(:context) { Proc.new { {custom_data: 'dynamic data'} } }
 
         it 'evaluates the lambda or Proc and includes the result' do
-          expect(log_line_hash).to include 'lambda' => 'lambda data',
-                                           'proc' => 'proc data'
+          expect(log_line_hash).to include 'custom_data' => 'dynamic data'
         end
       end
     end
