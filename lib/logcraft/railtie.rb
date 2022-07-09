@@ -5,7 +5,7 @@ require 'rails/railtie'
 module Logcraft
   class Railtie < ::Rails::Railtie
     config.logcraft = ActiveSupport::OrderedOptions.new
-    config.logcraft.initial_context = {}
+    config.logcraft.global_context = {}
     config.logcraft.layout_options = {}
 
     config.logcraft.access_log = ActiveSupport::OrderedOptions.new
@@ -16,7 +16,7 @@ module Logcraft
 
     initializer 'logcraft.initialize' do |app|
       Logcraft.initialize log_level: app.config.log_level,
-                          initial_context: app.config.logcraft.initial_context,
+                          global_context: app.config.logcraft.global_context,
                           layout_options: app.config.logcraft.layout_options
     end
 

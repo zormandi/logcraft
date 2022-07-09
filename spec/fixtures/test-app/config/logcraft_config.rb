@@ -1,1 +1,1 @@
-config.logcraft.initial_context = {custom: 'data'}
+config.logcraft.global_context = {custom: 'data'}

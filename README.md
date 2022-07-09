@@ -223,7 +223,7 @@ Logcraft provides the following configuration options for Rails:
 
 | Option                                          | Default value            | Description                                                                                                               |
 |-------------------------------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| logcraft.initial_context                        | `{}`                     | A global log context that will be included in every log message. Must be either a Hash or a lambda/Proc returning a Hash. |
+| logcraft.global_context                         | `{}`                     | A global log context that will be included in every log message. Must be either a Hash or a lambda/Proc returning a Hash. |
 | logcraft.layout_options                         | `{}`                     | Custom options for the log layout. Currently only the `level_formatter` option is supported (see examples).               |
 | logcraft.access_log.logger_name                 | `'AccessLog'`            | The name of the logger emitting access log messages.                                                                      |
 | logcraft.access_log.exclude_paths               | `[]`                     | A list of paths (array of strings or RegExps) not to include in the access log.                                           |
@@ -236,7 +236,7 @@ Examples:
 # Use these options in your Rails configuration files (e.g. application.rb)
 
 # Set up a global context you want to see in every log message
-config.logcraft.initial_context = -> do
+config.logcraft.global_context = -> do
   {
     environment: ENV['RAILS_ENV'],
     timestamp_linux: Time.current.to_i # evaluated every time when emitting a log message
@@ -259,11 +259,11 @@ config.logcraft.log_only_whitelisted_params = true
 
 ### Non-Rails
 
-The `initial_context` and `layout_options` configuration options (see above) are available to non-Rails projects
+The `global_context` and `layout_options` configuration options (see above) are available to non-Rails projects
 via Logcraft's initialization mechanism. You can also set the default log level this way.
 
 ```ruby
-Logcraft.initialize log_level: :info, initial_context: {}, layout_options: {}
+Logcraft.initialize log_level: :info, global_context: {}, layout_options: {}
 ```
 
 ## Integration with DataDog
@@ -272,7 +272,7 @@ You can set up tracing with [DataDog](https://www.datadoghq.com/) by providing a
 every log message:
 
 ```ruby
-config.logcraft.initial_context = -> do
+config.logcraft.global_context = -> do
   return unless Datadog::Tracing.enabled?
 
   correlation = Datadog::Tracing.correlation

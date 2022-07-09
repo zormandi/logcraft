@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - The initial context is now fully dynamic; it can be either a Hash or a lambda/Proc returning a Hash.
   Using a Hash with lambda values is no longer supported.
+- Renamed `initial_context` configuration setting to `global_context` everywhere.
 
 ## [1.0.0.rc] - 2022-06-26
 ### Added

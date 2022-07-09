@@ -12,8 +12,8 @@ module Logcraft
 
   extend LogContextHelper
 
-  def self.initialize(log_level: :info, initial_context: {}, layout_options: {})
-    Logging.logger.root.appenders = Logging.appenders.stdout layout: LogLayout.new(initial_context, layout_options)
+  def self.initialize(log_level: :info, global_context: {}, layout_options: {})
+    Logging.logger.root.appenders = Logging.appenders.stdout layout: LogLayout.new(global_context, layout_options)
     Logging.logger.root.level = log_level
   end
 
