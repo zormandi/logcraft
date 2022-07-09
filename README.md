@@ -82,7 +82,7 @@ Examples:
 logger = Logcraft.logger 'Application'
 
 logger.info 'Log message'
-# => {"timestamp":"2022-06-26T17:52:57.845+02:00","level":"INFO","logger":"Application","hostname":"Zoltans-iPro","pid":80422,"message":"Log message"}
+# => {"timestamp":"2022-06-26T17:52:57.845+02:00","level":"INFO","logger":"Application","hostname":"MacbookPro.local","pid":80422,"message":"Log message"}
 
 logger.info message: 'User logged in', user_id: 42
 # => {"timestamp":"2022-06-26T17:44:01.926+02:00","level":"INFO","logger":"Application","hostname":"MacbookPro.local","pid":80422,"message":"User logged in","user_id":42}
