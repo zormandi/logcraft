@@ -16,7 +16,7 @@ Logcraft's purpose is threefold:
 Logcraft supports:
 
 * [Ruby](https://www.ruby-lang.org) 2.6 and up (tested with 2.6, 2.7, 3.0 and 3.1)
-* [Rails](https://rubyonrails.org/) 5 and up (tested with 5.2, 6.0 and 6.1)
+* [Rails](https://rubyonrails.org/) 5 and up (tested with 5.2, 6.0, 6.1 and 7.0)
 * [Sidekiq](https://github.com/mperham/sidekiq) support is coming soon via a separate gem (_logcraft-sidekiq_)
 
 Logcraft uses Tim Pease's wonderful [Logging](https://github.com/TwP/logging) gem under the hood for an all-purpose
