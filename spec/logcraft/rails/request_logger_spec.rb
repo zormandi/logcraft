@@ -66,6 +66,12 @@ RSpec.describe Logcraft::Rails::RequestLogger do
                              response_status_code: 200
     end
 
+    it 'logs the request ID' do
+      Logcraft.within_log_context request_id: 'test request id' do
+        expect { call }.to log request_id: 'test request id'
+      end
+    end
+
     it 'logs the request duration' do
       allow(::Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC, :millisecond).and_return 2373390260,
                                                                                                           2373390403

@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Using a Hash with lambda values is no longer supported.
 - Renamed `initial_context` configuration setting to `global_context` everywhere.
 
+### Fixed
+- Fixed a bug where the request ID was missing from the access log.
+
 ### Added
 - The provided RSpec matchers can now take other matchers as part of the log expectation.
 

@@ -9,7 +9,8 @@ RSpec.describe 'Rails log output', type: :request do
 
       expect(log_output.length).to eq 1
       log_output_is_expected.to include_log_message logger: 'AccessLog',
-                                                    message: 'GET /access - 200 (OK)'
+                                                    message: 'GET /access - 200 (OK)',
+                                                    request_id: match(/[\w-]+/)
     end
   end
 

@@ -16,9 +16,10 @@ module Logcraft
         instrumentation_start request
 
         status, headers, body = @app.call env
+        request_id = Logging.mdc[:request_id]
         body = ::Rack::BodyProxy.new(body) do
           instrumentation_finish request
-          log_request request, status, start_time
+          log_request request, status, start_time, request_id
         end
 
         [status, headers, body]
@@ -46,7 +47,7 @@ module Logcraft
         instrumenter.finish 'request.action_dispatch', request: request
       end
 
-      def log_request(request, status, start_time)
+      def log_request(request, status, start_time, request_id = nil)
         return if path_ignored? request
 
         end_time = current_time_in_milliseconds
@@ -60,6 +61,7 @@ module Logcraft
           duration: end_time - start_time,
           duration_sec: (end_time - start_time) / 1000.0
         }
+        message[:request_id] = request_id if request_id
         @logger.info message
       end
 
