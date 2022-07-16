@@ -2,21 +2,30 @@
 
 require 'json'
 
-RSpec::Matchers.define :include_log_message do |expected|
+RSpec::Matchers.define :include_log_message do |expected_message|
   chain :at_level, :log_level
 
   match do |actual|
-    actual.any? { |log_line| includes? log_line, expected_messages_from(expected) }
+    actual.any? { |log_line| includes? log_line, expected_message }
   end
 
-  def includes?(log_line, messages)
-    return false unless includes_log_level? log_line
-    messages.all? { |message| log_line.include? message }
+  def includes?(log_line, expected)
+    actual = JSON.parse log_line, symbolize_names: true
+    expected = normalize_expectation expected
+    RSpec::Matchers::BuiltIn::Include.new(expected).matches? actual
   end
 
-  def includes_log_level?(log_line)
-    return true if log_level.nil?
-    log_line.include? log_level_string(log_level)
+  def normalize_expectation(expected)
+    result = case expected
+             when String
+               {message: expected}
+             when Hash
+               expected
+             else
+               raise ArgumentError, 'Log expectation must be either a String or a Hash'
+             end
+    result[:level] = log_level_string(log_level) unless log_level.nil?
+    result
   end
 
   def log_level_string(log_level)
@@ -24,19 +33,8 @@ RSpec::Matchers.define :include_log_message do |expected|
     log_level.to_s.upcase
   end
 
-  def expected_messages_from(object)
-    @expected_messages ||= case object
-                           when Hash
-                             object.map { |k, v| JSON.dump(k => v)[1...-1] }
-                           when String
-                             [object]
-                           else
-                             raise NotImplementedError, 'log expectation must be Hash or String'
-                           end
-  end
-
   failure_message do |actual|
-    error_message = "expected log output\n\t'#{actual.join('')}'\nto include log message\n\t'#{expected}'"
+    error_message = "expected log output\n\t'#{actual.join('')}'\nto include log message\n\t'#{expected_message}'"
     error_message += " at #{log_level} level" if log_level
     error_message
   end

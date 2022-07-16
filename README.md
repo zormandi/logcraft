@@ -316,6 +316,11 @@ log_output_is_expected.to include_log_message message: 'Test message'
 expect { operation }.to log message: 'Test message',
                             user_id: 123456
 
+# RSpec's matchers can be used inside the expectation
+expect { get '/' }.to log message: 'GET / - 200 (OK)',
+                          request_id: match(/[\w-]+/),
+                          duration: be_within(100).of(100)
+
 # Expect a certain log level
 log_output_is_expected.to include_log_message(message: 'Test message').at_level(:info)
 expect { operation }.to log(message: 'Test message').at_level(:info)
