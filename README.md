@@ -87,11 +87,11 @@ logger.info 'Log message'
 logger.info message: 'User logged in', user_id: 42
 # => {"timestamp":"2022-06-26T17:44:01.926+02:00","level":"INFO","logger":"Application","hostname":"MacbookPro.local","pid":80422,"message":"User logged in","user_id":42}
 
-logger.warn error
+logger.error error
 # Formatted for better readability (the original is a single line string):
 # => {
 #      "timestamp": "2022-06-26T17:46:42.418+02:00",
-#      "level": "WARN",
+#      "level": "ERROR",
 #      "logger": "Application",
 #      "hostname": "MacbookPro.local",
 #      "pid": 80422,
@@ -105,6 +105,22 @@ logger.warn error
 #          "message": "original error",
 #          "backtrace": [...]
 #        }
+#      }
+#    }
+
+# Any top-level field of the log message can be an Exception (so the error message can be customized):
+logger.warn message: 'An error occured', warning: error
+# => {
+#      "timestamp": "2022-06-26T17:46:42.418+02:00",
+#      "level": "WARN",
+#      "logger": "Application",
+#      "hostname": "MacbookPro.local",
+#      "pid": 80422,
+#      "message": "An error occured",
+#      "warning": {
+#        "class": "StandardError",
+#        "message": "original error message",
+#        "backtrace": [...]
 #      }
 #    }
 ```
