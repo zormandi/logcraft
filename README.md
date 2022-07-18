@@ -17,7 +17,8 @@ Logcraft supports:
 
 * [Ruby](https://www.ruby-lang.org) 2.6 and up (tested with 2.6, 2.7, 3.0 and 3.1)
 * [Rails](https://rubyonrails.org/) 5 and up (tested with 5.2, 6.0, 6.1 and 7.0)
-* [Sidekiq](https://github.com/mperham/sidekiq) support is coming soon via a separate gem (_logcraft-sidekiq_)
+* [Sidekiq](https://github.com/mperham/sidekiq) integration is provided via
+  the [Logcraft::Sidekiq](https://github.com/zormandi/logcraft-sidekiq) gem
 
 Logcraft uses Tim Pease's wonderful [Logging](https://github.com/TwP/logging) gem under the hood for an all-purpose
 structured logging solution.
@@ -285,7 +286,7 @@ Logcraft.initialize log_level: :info, global_context: {}, layout_options: {}
 
 ## Integration with DataDog
 
-You can set up tracing with [DataDog](https://www.datadoghq.com/) by providing an initial context to be included in
+You can set up tracing with [DataDog](https://www.datadoghq.com/) by providing a global context to be included in
 every log message:
 
 ```ruby
