@@ -23,6 +23,28 @@ Logcraft supports:
 Logcraft uses Tim Pease's wonderful [Logging](https://github.com/TwP/logging) gem under the hood for an all-purpose
 structured logging solution.
 
+## Table of contents
+
+* [Installation](#installation)
+  * [Rails](#rails)
+  * [Non-Rails applications](#non-rails-applications)
+* [Usage](#usage)
+  * [Structured logging](#structured-logging)
+    * [Adding context information to log messages](#adding-context-information-to-log-messages)
+  * [Rails logging](#rails-logging)
+    * [The log level](#the-log-level)
+    * [JSON serialization](#json-serialization)
+* [Configuration options](#configuration-options)
+  * [Rails configuration](#rails-configuration)
+  * [Non-Rails configuration](#non-rails-configuration)
+* [Integration with DataDog](#integration-with-datadog)
+* [RSpec support](#rspec-support)
+* [Development](#development)
+* [Contributing](#contributing)
+* [Disclaimer](#disclaimer)
+* [License](#license)
+* [Code of Conduct](#code-of-conduct)
+
 ## Installation
 
 ### Rails
@@ -31,6 +53,7 @@ Add this line to your application's Gemfile:
 
 ```ruby
 gem 'logcraft'
+gem 'oj' # Optional, but recommended; see the "JSON serialization" section in the README
 ```
 
 Although Logcraft sets up sensible defaults for all logging configuration settings, it leaves you the option to override
@@ -233,9 +256,26 @@ The logger's log level is determined as follows (in order of precedence):
 
 The following log levels are available: `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL`.
 
+#### JSON serialization
+
+Logcraft uses the [MultiJSON](https://github.com/intridea/multi_json) gem for serializing data to JSON, which in turn
+uses ActiveSupport's JSON encoder by default (unless you have some other JSON gem loaded in your project).
+However, ActiveSupport's JSON encoder has some quirks which you might not be aware of:
+
+```ruby
+ActiveSupport::JSON.encode test: 'foo > bar'
+#=> "{\"test\":\"foo \\u003e bar\"}"
+
+{test: 'foo > bar'}.to_json
+#=> "{\"test\":\"foo \\u003e bar\"}"
+```
+
+I highly recommend using the [Oj](https://github.com/ohler55/oj) gem which - if present - will be automatically
+picked up by Logcraft, as it is significantly faster and will serialize your messages as you would expect.
+
 ## Configuration options
 
-### Rails
+### Rails configuration
 
 Logcraft provides the following configuration options for Rails:
 
@@ -275,7 +315,7 @@ config.logcraft.exclude_paths = ['/healthcheck', %r(/monitoring/.*)]
 config.logcraft.log_only_whitelisted_params = true
 ```
 
-### Non-Rails
+### Non-Rails configuration
 
 The `global_context` and `layout_options` configuration options (see above) are available to non-Rails projects
 via Logcraft's initialization mechanism. You can also set the default log level this way.
