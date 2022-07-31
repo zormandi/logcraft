@@ -6,21 +6,15 @@ RSpec.describe Logcraft::Rails::RequestIdLogger do
 
     let(:middleware) { described_class.new app }
     let(:env) { {'action_dispatch.request_id' => 'unique request ID'} }
-    let(:app) { double 'application' }
-    let(:app_call) do
-      -> do
+    let(:app) do
+      ->(env) do
         Logcraft.logger('Application').info 'test message'
-        app_call_result
+        "app result for #{env['action_dispatch.request_id']}"
       end
     end
-    let(:app_call_result) { 'app_call_result' }
 
-    before do
-      allow(app).to receive(:call).with(env) { app_call.call }
-    end
-
-    it 'calls the next middleware in the stack and returns the results' do
-      expect(call).to eq app_call_result
+    it 'calls the next middleware in the stack with the environment and returns the results' do
+      expect(call).to eq 'app result for unique request ID'
     end
 
     it 'adds the request ID to the log context' do
