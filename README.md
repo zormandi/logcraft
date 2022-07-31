@@ -1,6 +1,7 @@
 # Logcraft
 
 [![Build Status](https://github.com/zormandi/logcraft/actions/workflows/main.yml/badge.svg)](https://github.com/zormandi/logcraft/actions/workflows/main.yml)
+[![Gem Version](https://badge.fury.io/rb/logcraft.svg)](https://badge.fury.io/rb/logcraft)
 
 Logcraft is a zero-configuration structured logging library for pure Ruby or [Ruby on Rails](https://rubyonrails.org/)
 applications. It is the successor to [Ezlog](https://github.com/emartech/ezlog) with which it shares its ideals but is
@@ -279,14 +280,16 @@ picked up by Logcraft, as it is significantly faster and will serialize your mes
 
 Logcraft provides the following configuration options for Rails:
 
-| Option                                          | Default value            | Description                                                                                                               |
-|-------------------------------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| logcraft.global_context                         | `{}`                     | A global log context that will be included in every log message. Must be either a Hash or a lambda/Proc returning a Hash. |
-| logcraft.layout_options                         | `{}`                     | Custom options for the log layout. Currently only the `level_formatter` option is supported (see examples).               |
-| logcraft.access_log.logger_name                 | `'AccessLog'`            | The name of the logger emitting access log messages.                                                                      |
-| logcraft.access_log.exclude_paths               | `[]`                     | A list of paths (array of strings or RegExps) not to include in the access log.                                           |
-| logcraft.access_log.log_only_whitelisted_params | `false`                  | If `true`, the access log will only contain whitelisted parameters.                                                       |
-| logcraft.access_log.whitelisted_params          | `[:controller, :action]` | The only parameters to be logged in the access log if whitelisting is enabled.                                            |
+| Option                                                | Default value            | Description                                                                                                                                                          |
+|-------------------------------------------------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| logcraft.global_context                               | `{}`                     | A global log context that will be included in every log message. Must be either a Hash or a lambda/Proc returning a Hash.                                            |
+| logcraft.layout_options                               | `{}`                     | Custom options for the log layout. Currently only the `level_formatter` option is supported (see examples).                                                          |
+| logcraft.access_log.logger_name                       | `'AccessLog'`            | The name of the logger emitting access log messages.                                                                                                                 |
+| logcraft.access_log.exclude_paths                     | `[]`                     | A list of paths (array of strings or RegExps) not to include in the access log.                                                                                      |
+| logcraft.access_log.log_only_whitelisted_params       | `false`                  | If `true`, the access log will only contain whitelisted parameters.                                                                                                  |
+| logcraft.access_log.whitelisted_params                | `[:controller, :action]` | The only parameters to be logged in the access log if whitelisting is enabled.                                                                                       |
+| logcraft.unhandled_errors.log_level                   | `:fatal`                 | The log level with which to log unhandled errors. Rails logs these with FATAL, by default.                                                                           |
+| logcraft.unhandled_errors.log_errors_handled_by_rails | `true`                   | Whether or not to log unhandled errors which are actually handled by Rails (e.g. 404). For a detailed list, see `ActionDispatch::ExceptionWrapper.rescue_responses`. |
 
 Examples:
 
