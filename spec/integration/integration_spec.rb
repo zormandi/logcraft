@@ -45,11 +45,16 @@ RSpec.describe 'Rails log output', type: :request do
   end
 
   describe 'unhandled error logging' do
-    it 'contains unhandled error log message in a single line and structured format' do
+    it 'contains the unhandled error log message in a single line and structured format at the configured log level' do
       expect { get '/error' }.to log logger: 'Application',
-                                     level: 'FATAL',
+                                     level: 'ERROR',
                                      message: 'Unhandled error'
       expect(log_output.size).to eq 2
+    end
+
+    it 'can be configured to suppress logs for errors handled by Rails' do
+      expect { get '/not_found' }.not_to log message: /No route matches.*/
+      expect(log_output.size).to eq 1
     end
   end
 end

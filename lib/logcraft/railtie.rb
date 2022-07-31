@@ -14,6 +14,10 @@ module Logcraft
     config.logcraft.access_log.log_only_whitelisted_params = false
     config.logcraft.access_log.whitelisted_params = [:controller, :action]
 
+    config.logcraft.unhandled_errors = ActiveSupport::OrderedOptions.new
+    config.logcraft.unhandled_errors.log_level = :fatal
+    config.logcraft.unhandled_errors.log_errors_handled_by_rails = true
+
     initializer 'logcraft.initialize' do |app|
       Logcraft.initialize log_level: app.config.log_level,
                           global_context: app.config.logcraft.global_context,
