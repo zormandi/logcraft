@@ -274,6 +274,17 @@ ActiveSupport::JSON.encode test: 'foo > bar'
 I highly recommend using the [Oj](https://github.com/ohler55/oj) gem which - if present - will be automatically
 picked up by Logcraft, as it is significantly faster and will serialize your messages as you would expect.
 
+In a nutshell:
+```ruby
+# With default ActiveSupport serialization
+Rails.logger.info 'foo > bar'
+#=> {...,"message":"foo \u003e bar"}
+
+# With Oj
+Rails.logger.info 'foo > bar'
+#=> {...,"message":"foo > bar"}
+```
+
 ## Configuration options
 
 ### Rails configuration
