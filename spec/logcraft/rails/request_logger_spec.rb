@@ -51,12 +51,6 @@ RSpec.describe Logcraft::Rails::RequestLogger do
       expect { call }.to log(message: 'GET /healthcheck?test=true - 200 (OK)').at_level :info
     end
 
-    it 'only writes the log after the request is finished' do
-      body_proxy = nil
-      expect { _, _, body_proxy = middleware.call(env) }.not_to log message: 'GET /healthcheck?test=true - 200 (OK)'
-      expect { body_proxy.close }.to log message: 'GET /healthcheck?test=true - 200 (OK)'
-    end
-
     it 'logs additional information about the request including all parameters' do
       expect { call }.to log logger: 'AccessLog',
                              remote_ip: '127.0.0.1',
@@ -64,12 +58,6 @@ RSpec.describe Logcraft::Rails::RequestLogger do
                              path: '/healthcheck?test=true',
                              params: {test: 'true'},
                              response_status_code: 200
-    end
-
-    it 'logs the request ID' do
-      Logcraft.within_log_context request_id: 'test request id' do
-        expect { call }.to log request_id: 'test request id'
-      end
     end
 
     it 'logs the request duration' do

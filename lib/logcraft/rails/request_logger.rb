@@ -14,13 +14,9 @@ module Logcraft
         request = ActionDispatch::Request.new env
 
         instrumentation_start request
-
         status, headers, body = @app.call env
-        request_id = Logging.mdc[:request_id]
-        body = ::Rack::BodyProxy.new(body) do
-          instrumentation_finish request
-          log_request request, status, start_time, request_id
-        end
+        body = ::Rack::BodyProxy.new(body) { instrumentation_finish request }
+        log_request request, status, start_time
 
         [status, headers, body]
       rescue Exception => ex
@@ -47,22 +43,18 @@ module Logcraft
         instrumenter.finish 'request.action_dispatch', request: request
       end
 
-      def log_request(request, status, start_time, request_id = nil)
+      def log_request(request, status, start_time)
         return if path_ignored? request
 
         end_time = current_time_in_milliseconds
-        message = {
-          message: '%s %s - %i (%s)' % [request.method, request.filtered_path, status, Rack::Utils::HTTP_STATUS_CODES[status]],
-          remote_ip: request.remote_ip,
-          method: request.method,
-          path: request.filtered_path,
-          params: params_to_log(request),
-          response_status_code: status,
-          duration: end_time - start_time,
-          duration_sec: (end_time - start_time) / 1000.0
-        }
-        message[:request_id] = request_id if request_id
-        @logger.info message
+        @logger.info message: '%s %s - %i (%s)' % [request.method, request.filtered_path, status, Rack::Utils::HTTP_STATUS_CODES[status]],
+                     remote_ip: request.remote_ip,
+                     method: request.method,
+                     path: request.filtered_path,
+                     params: params_to_log(request),
+                     response_status_code: status,
+                     duration: end_time - start_time,
+                     duration_sec: (end_time - start_time) / 1000.0
       end
 
       def path_ignored?(request)
