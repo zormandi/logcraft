@@ -356,7 +356,7 @@ config.logcraft.global_context = -> do
       service: correlation.service.to_s,
       version: correlation.version.to_s
     },
-    ddsource: ['ruby']
+    ddsource: 'ruby'
   }
 end
 ```
