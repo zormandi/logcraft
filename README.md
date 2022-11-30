@@ -190,7 +190,7 @@ In more detail:
 
 * The `Rails.logger` is set up to be a Logcraft logger with the name `Application`.
 * Rails's default logging of uncaught errors is modified and instead of spreading the error message across several
-  lines, Logcraft log every uncaught error in 1 line (per error), including the error's name and context (stack trace,
+  lines, Logcraft logs every uncaught error in 1 line (per error), including the error's name and context (stack trace,
   etc.).
 * Most importantly, Rails's default request logging - which logs several lines per event during the processing of an
   action - is replaced by Logcraft's own access log middleware. The end result is an access log that
@@ -215,7 +215,7 @@ Processing by PagesController#welcome as HTML
 Completed 200 OK in 31ms (Views: 27.3ms | ActiveRecord: 0.0ms)
 
 With Logcraft:
-{"timestamp":"2022-06-26T18:07:08.103+02:00","level":"INFO","logger":"AccessLog","hostname":"MacbookPro.local","pid":80908,"request_id":"9a43631b-284c-4677-9d08-9c1cc5c7d3a7","message":"GET /welcome?subsession_id=34ea8596f9764f475f81158667bc2654 - 200 (OK)","remote_ip":"127.0.0.1","method":"GET","path":"/welcome?subsession_id=34ea8596f9764f475f81158667bc2654","params":{"subsession_id":"34ea8596f9764f475f81158667bc2654","controller":"pages","action":"welcome"},"response_status_code":200,"duration":13,"duration_sec":0.013}
+{"timestamp":"2022-06-26T18:07:08.103+02:00","level":"INFO","logger":"AccessLog","hostname":"MacbookPro.local","pid":80908,"request_id":"9a43631b-284c-4677-9d08-9c1cc5c7d3a7","message":"GET /welcome?subsession_id=34ea8596f9764f475f81158667bc2654 - 200 (OK)","remote_ip":"127.0.0.1","method":"GET","path":"/welcome?subsession_id=34ea8596f9764f475f81158667bc2654","params":{"subsession_id":"34ea8596f9764f475f81158667bc2654","controller":"pages","action":"welcome"},"response_status_code":200,"duration":31,"duration_sec":0.031}
 
 Formatted for readability:
 {
@@ -235,8 +235,8 @@ Formatted for readability:
     "action": "welcome"
   }, 
   "response_status_code": 200, 
-  "duration": 13, 
-  "duration_sec": 0.013
+  "duration": 31, 
+  "duration_sec": 0.031
 }
 ```
 
