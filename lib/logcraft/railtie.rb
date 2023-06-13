@@ -6,7 +6,7 @@ module Logcraft
   class Railtie < ::Rails::Railtie
     config.logcraft = ActiveSupport::OrderedOptions.new
     config.logcraft.global_context = {}
-    config.logcraft.layout_options = {}
+    config.logcraft.layout_options = ActiveSupport::OrderedOptions.new
 
     config.logcraft.access_log = ActiveSupport::OrderedOptions.new
     config.logcraft.access_log.logger_name = 'AccessLog'

@@ -4,16 +4,20 @@ require 'time'
 
 module Logcraft
   class LogLayout < Logging::Layout
+    JSON_FORMATTER = ->(event) { MultiJson.dump(event) + "\n" }.freeze
+    LOGGING_LEVEL_FORMATTER = ->(level) { Logging::LNAMES[level] }.freeze
+
     def initialize(global_context = {}, options = {})
       @global_context = global_context
-      @level_formatter = options.fetch :level_formatter, ->(level) { Logging::LNAMES[level] }
+      @formatter = options.fetch :formatter, JSON_FORMATTER
+      @level_formatter = options.fetch :level_formatter, LOGGING_LEVEL_FORMATTER
     end
 
     def format(event)
       log_entry = background_of(event).merge evaluated_global_context,
                                              dynamic_log_context,
                                              message_from(event.data)
-      MultiJson.dump(log_entry) + "\n"
+      @formatter.call log_entry
     end
 
     private

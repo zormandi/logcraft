@@ -148,6 +148,23 @@ RSpec.describe Logcraft::LogLayout do
       end
     end
 
+    context 'when a formatter is provided as an option' do
+      let(:options) { {formatter: ->(event) { YAML.dump event }} }
+      let(:event_data) { 'Hello, World!' }
+
+      it 'outputs the log event through the formatter' do
+        expect(log_line).to eq <<~YAML
+          ---
+          timestamp: '#{event.time.iso8601(3)}'
+          level: INFO
+          logger: TestLogger
+          hostname: #{Socket.gethostname}
+          pid: #{Process.pid}
+          message: Hello, World!
+        YAML
+      end
+    end
+
     context 'when a log level formatter is provided as an option' do
       let(:options) { {level_formatter: ->(level_number) { "level #{level_number}" }} }
 
