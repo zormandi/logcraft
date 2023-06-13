@@ -27,17 +27,17 @@ structured logging solution.
 ## Table of contents
 
 * [Installation](#installation)
-  * [Rails](#rails)
-  * [Non-Rails applications](#non-rails-applications)
+    * [Rails](#rails)
+    * [Non-Rails applications](#non-rails-applications)
 * [Usage](#usage)
-  * [Structured logging](#structured-logging)
-    * [Adding context information to log messages](#adding-context-information-to-log-messages)
-  * [Rails logging](#rails-logging)
-    * [The log level](#the-log-level)
-    * [JSON serialization](#json-serialization)
+    * [Structured logging](#structured-logging)
+        * [Adding context information to log messages](#adding-context-information-to-log-messages)
+    * [Rails logging](#rails-logging)
+        * [The log level](#the-log-level)
+        * [JSON serialization](#json-serialization)
 * [Configuration options](#configuration-options)
-  * [Rails configuration](#rails-configuration)
-  * [Non-Rails configuration](#non-rails-configuration)
+    * [Rails configuration](#rails-configuration)
+    * [Non-Rails configuration](#non-rails-configuration)
 * [Integration with DataDog](#integration-with-datadog)
 * [RSpec support](#rspec-support)
 * [Development](#development)
@@ -275,6 +275,7 @@ I highly recommend using the [Oj](https://github.com/ohler55/oj) gem which - if 
 picked up by Logcraft, as it is significantly faster and will serialize your messages as you would expect.
 
 In a nutshell:
+
 ```ruby
 # With default ActiveSupport serialization
 Rails.logger.info 'foo > bar'
@@ -293,8 +294,9 @@ Logcraft provides the following configuration options for Rails:
 
 | Option                                                | Default value            | Description                                                                                                                                                          |
 |-------------------------------------------------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| logcraft.global_context                               | `{}`                     | A global log context that will be included in every log message. Must be either a Hash or a lambda/Proc returning a Hash.                                            |
-| logcraft.layout_options                               | `{}`                     | Custom options for the log layout. Currently only the `level_formatter` option is supported (see examples).                                                          |
+| logcraft.global_context                               | `{} \| lambda \| proc`   | A global log context that will be included in every log message. Must be either a Hash or a lambda/proc returning a Hash.                                            |
+| logcraft.layout_options.formatter                     | `lambda \| proc`         | A custom formatter for the entire log event. Must return a single string (see examples for usage).                                                                   |
+| logcraft.layout_options.level_formatter               | `lambda \| proc`         | A custom formatter for the log level specifically (see examples for usage).                                                                                          |
 | logcraft.access_log.logger_name                       | `'AccessLog'`            | The name of the logger emitting access log messages.                                                                                                                 |
 | logcraft.access_log.exclude_paths                     | `[]`                     | A list of paths (array of strings or RegExps) not to include in the access log.                                                                                      |
 | logcraft.access_log.log_only_whitelisted_params       | `false`                  | If `true`, the access log will only contain whitelisted parameters.                                                                                                  |
@@ -305,7 +307,7 @@ Logcraft provides the following configuration options for Rails:
 Examples:
 
 ```ruby
-# Use these options in your Rails configuration files (e.g. application.rb)
+# Use these options in your Rails configuration files (e.g. config/application.rb or config/environments/*.rb)
 
 # Set up a global context you want to see in every log message
 config.logcraft.global_context = -> do
@@ -315,10 +317,13 @@ config.logcraft.global_context = -> do
   }
 end
 
+# Set up a custom log formatter (e.g. output logs in YAML format in the development environment - config/environments/development.rb)
+config.logcraft.layout_options.formatter = ->(event) { YAML.dump event } 
+# or just make the JSON more readable
+config.logcraft.layout_options.formatter = ->(event) { JSON.pretty_generate(event) + "\n----------------\n" }
+
 # Set up a custom log level formatter (e.g. Ougai-like numbers)
-config.logcraft.layout_options = {
-  level_formatter: ->(level_number) { (level_number + 2) * 10 }
-}
+config.logcraft.layout_options.level_formatter = ->(level_number) { (level_number + 2) * 10 }
 Rails.logger.error('Boom!')
 # => {...,"level":50,"message":"Boom!"}
 
