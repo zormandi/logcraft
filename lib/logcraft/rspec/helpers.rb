@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Ezlog
+module Logcraft
   module RSpec
     module Helpers
       def log_output_is_expected
