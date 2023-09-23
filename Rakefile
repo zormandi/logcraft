@@ -58,6 +58,6 @@ namespace :spec do
 end
 
 desc 'Run all RSpec examples'
-RSpec::Core::RakeTask.new(:spec)
+task spec: [:'spec:unit', :'spec:integration']
 
 task default: :spec
