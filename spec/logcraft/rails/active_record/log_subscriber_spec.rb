@@ -47,7 +47,7 @@ RSpec.describe Logcraft::Rails::ActiveRecord::LogSubscriber do
                           sql: 'SELECT * FROM users LIMIT $1',
                           binds: [ActiveRecord::Relation::QueryAttribute.new('LIMIT',
                                                                              1,
-                                                                             instance_double(ActiveModel::Type::Value, binary?: false))],
+                                                                             instance_spy(ActiveModel::Type::Value, binary?: false))],
                           type_casted_binds: [1]
                         },
                         duration: 1.235
@@ -65,7 +65,7 @@ RSpec.describe Logcraft::Rails::ActiveRecord::LogSubscriber do
                             sql: 'SELECT * FROM users WHERE bytecode = $1',
                             binds: [ActiveRecord::Relation::QueryAttribute.new('bytecode',
                                                                                'some binary value',
-                                                                               instance_double(ActiveModel::Type::Value, binary?: true))],
+                                                                               instance_spy(ActiveModel::Type::Value, binary?: true))],
                             type_casted_binds: ['some binary value']
                           },
                           duration: 1.235
@@ -84,7 +84,7 @@ RSpec.describe Logcraft::Rails::ActiveRecord::LogSubscriber do
                             sql: 'SELECT * FROM users LIMIT $1',
                             binds: [ActiveRecord::Relation::QueryAttribute.new('LIMIT',
                                                                                1,
-                                                                               instance_double(ActiveModel::Type::Value, binary?: false))],
+                                                                               instance_spy(ActiveModel::Type::Value, binary?: false))],
                             type_casted_binds: -> { [1] }
                           },
                           duration: 1.235
