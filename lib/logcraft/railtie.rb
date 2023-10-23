@@ -45,7 +45,11 @@ module Logcraft
     end
 
     config.before_configuration do |app|
-      app.config.logger = Logcraft.logger 'Application'
+      app.config.logger = if defined? ActiveSupport::BroadcastLogger
+                            ActiveSupport::BroadcastLogger.new Logcraft.logger('Application')
+                          else
+                            Logcraft.logger 'Application'
+                          end
       app.config.log_level = ENV['LOG_LEVEL'] || :info
     end
   end
