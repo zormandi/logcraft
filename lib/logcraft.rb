@@ -18,6 +18,9 @@ module Logcraft
   end
 
   def self.logger(name, level = nil)
-    Logging::Logger[name].tap { |logger| logger.level = level if level }
+    Logging::Logger[name].tap do |logger|
+      logger.level = level if level
+      logger.instance_variable_set :@logdev, OpenStruct.new(dev: STDOUT)
+    end
   end
 end

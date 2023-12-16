@@ -27,6 +27,10 @@ RSpec.describe Logcraft do
       it 'returns a logger with the specified log level' do
         expect(logger.level).to eq Logging::LEVELS['fatal']
       end
+
+      it 'returns a logger which reports to ActiveSupport that it logs to STDOUT so ActiveRecord does not append a new console logger' do
+        expect(ActiveSupport::Logger.logger_outputs_to?(logger, STDERR, STDOUT)).to be true
+      end
     end
   end
 end
