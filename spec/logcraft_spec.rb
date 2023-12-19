@@ -28,9 +28,20 @@ RSpec.describe Logcraft do
         expect(logger.level).to eq Logging::LEVELS['fatal']
       end
 
-      it 'returns a logger which reports to ActiveSupport that it logs to STDOUT so ActiveRecord does not append a new console logger' do
-        expect(ActiveSupport::Logger.logger_outputs_to?(logger, STDERR, STDOUT)).to be true
+      it 'returns a logger which can be duplicated with the same log level' do
+        logger_copy = logger.dup
+        expect(logger_copy).to respond_to :debug
+        expect(logger_copy.level).to eq logger.level
       end
+    end
+
+    it 'returns a logger which reports to ActiveSupport that it logs to STDOUT so ActiveRecord does not append a new console logger' do
+      expect(ActiveSupport::Logger.logger_outputs_to?(logger, STDERR, STDOUT)).to be true
+    end
+
+    it 'returns a logger which can be duplicated' do
+      logger_copy = logger.dup
+      expect(logger_copy).to respond_to :debug
     end
   end
 end
