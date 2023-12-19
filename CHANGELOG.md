@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] - 2023-12-19
+### Fixed
+- Fixed an issue where logs were duplicated (once in JSON, once in plain text) when running the Rails console.
+  (https://github.com/zormandi/logcraft/issues/7)
+- Fixed an issue that prevented using Logcraft and Sentry-Rails together with the default configuration.
+  (https://github.com/zormandi/logcraft/issues/6)
+
 ## [2.2] - 2023-10-23
 ### Added
 - Added support for Rails 7.1.
