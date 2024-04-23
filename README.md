@@ -328,10 +328,10 @@ Rails.logger.error('Boom!')
 # => {...,"level":50,"message":"Boom!"}
 
 # Exclude healthcheck and monitoring URLs from your access log:
-config.logcraft.exclude_paths = ['/healthcheck', %r(/monitoring/.*)]
+config.logcraft.access_log.exclude_paths = ['/healthcheck', %r(/monitoring/.*)]
 
 # Make sure no sensitive data is logged by accident in the access log, so only log controller and action:
-config.logcraft.log_only_whitelisted_params = true
+config.logcraft.access_log.log_only_whitelisted_params = true
 ```
 
 ### Non-Rails configuration
