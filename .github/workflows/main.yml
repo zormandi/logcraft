@@ -13,32 +13,15 @@ jobs:
     name: Ruby ${{ matrix.ruby }}, Rails ${{ matrix.rails }}
     strategy:
       matrix:
-        ruby:
-          - '2.6'
-          - '2.7'
-          - '3.0'
-          - '3.1'
-        rails:
-          - '5.2'
-          - '6.0'
-          - '6.1'
-          - '7.0'
-          - '7.1'
-        exclude:
-          - ruby: '2.6'
+        include:
+          - ruby: '3.1'
             rails: '7.0'
-          - ruby: '2.6'
+          - ruby: '3.2'
             rails: '7.1'
-          - ruby: '2.7'
-            rails: '5.2'
-          - ruby: '3.0'
-            rails: '5.2'
-          - ruby: '3.0'
-            rails: '6.0'
-          - ruby: '3.1'
-            rails: '5.2'
-          - ruby: '3.1'
-            rails: '6.0'
+          - ruby: '3.3'
+            rails: '7.2'
+          - ruby: '3.4'
+            rails: '8.0'
 
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails }}.gemfile

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'logging'
+require 'ostruct'
 
 require 'logcraft/version'
 require 'logcraft/railtie' if defined? Rails

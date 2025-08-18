@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'ostruct'
+
 RSpec.describe Logcraft::Rails::RequestLogger do
   let(:middleware) { described_class.new app, Logcraft.logger('AccessLog'), config }
   let(:config) { OpenStruct.new config_options }

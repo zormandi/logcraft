@@ -18,16 +18,21 @@ def add_logcraft_options_to_application_configuration
   end
 end
 
-def remove_sprockets_configuration_for_rails7_compatibility
+def customize_development_environment_configuration
   project_root = File.dirname __FILE__
   Dir.chdir(project_root + '/spec/test-app') do
     FileUtils.rm_rf 'config/initializers/assets.rb'
     app_config = File.readlines 'config/environments/development.rb'
     modified_config = app_config.each_with_object([]) do |line, config|
-      config << line unless line.include? 'config.assets'
+      line = "  config.active_record.query_log_tags_enabled = false\n" if line.include? 'config.active_record.query_log_tags_enabled'
+      config << line unless sprockets_configuration? line
     end
     File.write 'config/environments/development.rb', modified_config.join
   end
+end
+
+def sprockets_configuration?(line)
+  line.include? 'config.assets'
 end
 
 desc 'Generate sample Rails app for acceptance testing'
@@ -41,7 +46,7 @@ task :generate_rails_app do
            '--skip-system-test --skip-bootsnap --skip-bundle --skip-webpack-install'
     FileUtils.cp_r 'fixtures/test-app/.', 'test-app', remove_destination: true
     add_logcraft_options_to_application_configuration
-    remove_sprockets_configuration_for_rails7_compatibility
+    customize_development_environment_configuration
   end
 end
 

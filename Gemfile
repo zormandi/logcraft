@@ -6,8 +6,8 @@ source "https://rubygems.org"
 gemspec
 
 group :test do
-  gem 'rails', '~> 7.1.0'
-  gem 'rspec-rails', '~> 6.0'
-  gem 'sqlite3', '~> 1.4'
+  gem 'rails', '~> 8.0.0'
+  gem 'rspec-rails', '~> 8.0'
+  gem 'sqlite3', '~> 2.0'
   gem 'net-smtp', require: false
 end

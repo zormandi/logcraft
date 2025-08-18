@@ -16,13 +16,10 @@ Logcraft's purpose is threefold:
 
 Logcraft supports:
 
-* [Ruby](https://www.ruby-lang.org) 2.6 and up (tested with 2.6, 2.7, 3.0 and 3.1)
-* [Rails](https://rubyonrails.org/) 5 and up (tested with 5.2, 6.0, 6.1, 7.0 and 7.1)
-* [Sidekiq](https://github.com/mperham/sidekiq) integration is provided via
-  the [Logcraft::Sidekiq](https://github.com/zormandi/logcraft-sidekiq) gem
+* [Ruby](https://www.ruby-lang.org) 3.1 and up (tested with 3.1, 3.2, 3.3 and 3.4)
+* [Rails](https://rubyonrails.org/) 7.0 and up (tested with 7.0, 7.1, 7.2 and 8.0)
 
-Logcraft uses Tim Pease's wonderful [Logging](https://github.com/TwP/logging) gem under the hood for an all-purpose
-structured logging solution.
+If you need Ruby < 3.1 or Rails < 7.0 support, please use the [Logcraft 2.2.1](https://github.com/zormandi/logcraft/tree/v2.2.1).
 
 ## Table of contents
 
