@@ -16,9 +16,18 @@ RSpec.describe Logcraft::LogLayout do
     it 'includes the basic context of the event' do
       expect(log_line_hash).to include 'timestamp' => event.time.iso8601(3),
                                        'level' => 'INFO',
-                                       'logger' => 'TestLogger',
-                                       'hostname' => Socket.gethostname,
-                                       'pid' => Process.pid
+                                       'logger' => {
+                                         'name' => 'TestLogger',
+                                          'thread_id' => Thread.current.native_thread_id,
+                                          'process_id' => Process.pid,
+                                       },
+                                       'hostname' => Socket.gethostname
+    end
+
+    it 'includes the logging thread name if it has one' do
+      Thread.current.name = 'test_thread'
+      expect(log_line_hash['logger']).to include 'thread_name' => 'test_thread'
+      Thread.current.name = nil
     end
 
     it 'ends with a new line' do
@@ -73,14 +82,14 @@ RSpec.describe Logcraft::LogLayout do
           let(:backtrace) { ['file1:line1', 'file2:line2'] }
 
           it 'includes the backtrace in the error context' do
-            expect(log_line_hash['error']).to include 'backtrace' => backtrace
+            expect(log_line_hash['error']).to include 'stack' => backtrace
           end
 
           context 'but the backtrace is long' do
             let(:backtrace) { 1.upto(25).map { |i| "file#{i}:line#{i}" } }
 
             it 'only includes the first 20 locations of the backtrace in the error context' do
-              expect(log_line_hash['error']).to include 'backtrace' => backtrace.first(20)
+              expect(log_line_hash['error']).to include 'stack' => backtrace.first(20)
             end
           end
         end
@@ -157,9 +166,11 @@ RSpec.describe Logcraft::LogLayout do
           ---
           timestamp: '#{event.time.iso8601(3)}'
           level: INFO
-          logger: TestLogger
+          logger:
+            name: TestLogger
+            thread_id: #{Thread.current.native_thread_id}
+            process_id: #{Process.pid}
           hostname: #{Socket.gethostname}
-          pid: #{Process.pid}
           message: Hello, World!
         YAML
       end

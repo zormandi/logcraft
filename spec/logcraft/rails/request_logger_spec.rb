@@ -54,7 +54,7 @@ RSpec.describe Logcraft::Rails::RequestLogger do
     end
 
     it 'logs additional information about the request including all parameters' do
-      expect { call }.to log logger: 'AccessLog',
+      expect { call }.to log logger: include(name: 'AccessLog'),
                              remote_ip: '127.0.0.1',
                              method: 'GET',
                              path: '/healthcheck?test=true',

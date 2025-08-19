@@ -26,9 +26,13 @@ module Logcraft
       {
         'timestamp' => event.time.iso8601(3),
         'level' => @level_formatter.call(event.level),
-        'logger' => event.logger,
+        'logger' => {
+          'name' => event.logger,
+          'thread_id' => Thread.current.native_thread_id,
+          'thread_name' => Thread.current.name,
+          'process_id' => Process.pid
+        }.compact,
         'hostname' => Socket.gethostname,
-        'pid' => Process.pid
       }
     end
 
@@ -61,7 +65,7 @@ module Logcraft
 
     def format_exception(exception)
       error_hash = {'class' => exception.class.name, 'message' => exception.message}
-      error_hash['backtrace'] = exception.backtrace.first(20) if exception.backtrace
+      error_hash['stack'] = exception.backtrace.first(20) if exception.backtrace
       error_hash['cause'] = format_cause(exception.cause) if exception.cause
       error_hash
     end

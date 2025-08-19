@@ -8,7 +8,7 @@ RSpec.describe 'Rails log output', type: :request do
       get '/access'
 
       expect(log_output.length).to eq 1
-      log_output_is_expected.to include_log_message logger: 'AccessLog',
+      log_output_is_expected.to include_log_message logger: include(name: 'AccessLog'),
                                                     message: 'GET /access - 200 (OK)',
                                                     request_id: match(/[\w-]+/)
     end
@@ -16,7 +16,7 @@ RSpec.describe 'Rails log output', type: :request do
 
   describe 'manual logging' do
     it 'contains the custom log message in a structured format with all fields' do
-      expect { get '/basic' }.to log logger: 'Application',
+      expect { get '/basic' }.to log logger: include(name: 'Application'),
                                      message: 'test message',
                                      data: 12345
     end
@@ -39,14 +39,14 @@ RSpec.describe 'Rails log output', type: :request do
     end
 
     it 'contains log messages for SQL queries' do
-      expect { get '/sql' }.to log logger: 'Application',
+      expect { get '/sql' }.to log logger: include(name: 'Application'),
                                    sql: 'SELECT 1'
     end
   end
 
   describe 'unhandled error logging' do
     it 'contains the unhandled error log message in a single line and structured format at the configured log level' do
-      expect { get '/error' }.to log logger: 'Application',
+      expect { get '/error' }.to log logger: include(name: 'Application'),
                                      level: 'ERROR',
                                      message: 'Unhandled error'
       expect(log_output.size).to eq 2
