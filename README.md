@@ -16,10 +16,11 @@ Logcraft's purpose is threefold:
 
 Logcraft supports:
 
-* [Ruby](https://www.ruby-lang.org) 3.1 and up (tested with 3.1, 3.2, 3.3 and 3.4)
-* [Rails](https://rubyonrails.org/) 7.0 and up (tested with 7.0, 7.1, 7.2 and 8.0)
+* [Ruby](https://www.ruby-lang.org) 3.2 and up (tested with 3.2, 3.3 and 3.4)
+* [Rails](https://rubyonrails.org/) 7.1 and up (tested with 7.1, 7.2 and 8.0)
 
-If you need Ruby < 3.1 or Rails < 7.0 support, please use the [Logcraft 2.2.1](https://github.com/zormandi/logcraft/tree/v2.2.1).
+If you're using Ruby 3.1 or earlier along with Rails 7.0 or earlier, then [Logcraft 2.2.1](https://github.com/zormandi/logcraft/tree/v2.2.1)
+has you covered (until you upgrade).
 
 ## Table of contents
 
