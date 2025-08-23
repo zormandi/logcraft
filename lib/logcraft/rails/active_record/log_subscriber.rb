@@ -19,9 +19,10 @@ module Logcraft
 
         def basic_message_from(event)
           {
-            message: "SQL - #{event.payload[:name] || 'Query'} (#{event.duration.round(3)}ms)",
+            message: "SQL - #{event.payload[:name] || 'Query'} (#{event.duration.round}ms)",
             sql: event.payload[:sql],
-            duration: event.duration,
+            duration: (event.duration * 1_000_000).round,
+            duration_ms: event.duration.round,
             duration_sec: (event.duration / 1000.0).round(5)
           }
         end

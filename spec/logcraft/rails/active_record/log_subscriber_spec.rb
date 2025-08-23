@@ -15,14 +15,16 @@ RSpec.describe Logcraft::Rails::ActiveRecord::LogSubscriber do
                         name: 'User Load',
                         sql: 'SELECT * FROM users'
                       },
-                      duration: 1.235
+                      duration: 321.2357436
     end
 
     it 'logs the SQL query execution event at DEBUG level' do
-      expect { trigger_event }.to log(message: 'SQL - User Load (1.235ms)',
+      expect { trigger_event }.to log(message: 'SQL - User Load (321ms)',
                                       sql: 'SELECT * FROM users',
-                                      duration: 1.235,
-                                      duration_sec: 0.00124).at_level(:debug)
+                                      duration: 321235744,
+                                      duration_ms: 321,
+                                      duration_sec: 0.32124).at_level(:debug)
+      Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond)
     end
 
     context 'when the payload has no name' do
@@ -31,11 +33,11 @@ RSpec.describe Logcraft::Rails::ActiveRecord::LogSubscriber do
                         payload: {
                           sql: 'SELECT 1'
                         },
-                        duration: 1.235
+                        duration: 123
       end
 
       it 'logs the event as a manual query' do
-        expect { trigger_event }.to log message: 'SQL - Query (1.235ms)'
+        expect { trigger_event }.to log message: 'SQL - Query (123ms)'
       end
     end
 
