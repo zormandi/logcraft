@@ -9,6 +9,5 @@ module Logcraft
     autoload :ActiveRecord, 'logcraft/rails/active_record'
     autoload :RequestIdLogger, 'logcraft/rails/request_id_logger'
     autoload :RequestLogger, 'logcraft/rails/request_logger'
-    autoload :LogSubscriptionHandler, 'logcraft/rails/log_subscription_handler'
   end
 end

@@ -34,16 +34,6 @@ module Logcraft
       app.config.middleware.insert_after ::ActionDispatch::RequestId, Logcraft::Rails::RequestIdLogger
     end
 
-    config.after_initialize do
-      Logcraft::Rails::LogSubscriptionHandler.detach ::ActionController::LogSubscriber, :action_controller
-      require 'action_view/log_subscriber' unless defined? ::ActionView::LogSubscriber
-      Logcraft::Rails::LogSubscriptionHandler.detach ::ActionView::LogSubscriber, :action_view
-      if defined? ::ActiveRecord
-        Logcraft::Rails::LogSubscriptionHandler.detach ::ActiveRecord::LogSubscriber, :active_record
-        Logcraft::Rails::LogSubscriptionHandler.attach Logcraft::Rails::ActiveRecord::LogSubscriber, :active_record
-      end
-    end
-
     config.before_configuration do |app|
       app.config.logger = if defined? ActiveSupport::BroadcastLogger
                             ActiveSupport::BroadcastLogger.new Logcraft.logger('Application')
@@ -51,6 +41,24 @@ module Logcraft
                             Logcraft.logger 'Application'
                           end
       app.config.log_level = ENV['LOG_LEVEL'] || :info
+    end
+
+    config.after_initialize do
+      detach_rails_log_subscribers
+      attach_logcraft_log_subscribers
+    end
+
+    private
+
+    def self.detach_rails_log_subscribers
+      ::ActionController::LogSubscriber.detach_from :action_controller
+      require 'action_view/log_subscriber' unless defined? ::ActionView::LogSubscriber
+      ::ActionView::LogSubscriber.detach_from :action_view
+      ::ActiveRecord::LogSubscriber.detach_from :active_record if defined? ::ActiveRecord
+    end
+
+    def self.attach_logcraft_log_subscribers
+      Logcraft::Rails::ActiveRecord::LogSubscriber.attach_to :active_record if defined? ::ActiveRecord
     end
   end
 end
