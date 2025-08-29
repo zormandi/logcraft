@@ -1,6 +1,5 @@
 class TestController < ApplicationController
   def access
-    head :ok
   end
 
   def basic
