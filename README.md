@@ -14,13 +14,13 @@ Logcraft's purpose is threefold:
 2. Make sure that all log messages are written to STDOUT in a machine-processable format (JSON).
 3. Achieving the above goals should require no configuration in the projects where the library is used.
 
-Logcraft supports:
+Logcraft 3 supports:
 
 * [Ruby](https://www.ruby-lang.org) 3.2 and up (tested with 3.2, 3.3 and 3.4)
 * [Rails](https://rubyonrails.org/) 7.1 and up (tested with 7.1, 7.2 and 8.0)
 
-If you're using Ruby 3.1 or earlier along with Rails 7.0 or earlier, then [Logcraft 2.2.1](https://github.com/zormandi/logcraft/tree/v2.2.1)
-has you covered (until you upgrade).
+> [!NOTE]
+> If you're using Ruby 3.1 or earlier along with Rails 7.0 or earlier, then take a look at [Logcraft 2.2.1](https://github.com/zormandi/logcraft/tree/v2.2.1).
 
 ## Table of contents
 
