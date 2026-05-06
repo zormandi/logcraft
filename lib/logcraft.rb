@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'logging'
-require 'ostruct'
 
 require 'logcraft/version'
 require 'logcraft/railtie' if defined? Rails
@@ -21,7 +20,7 @@ module Logcraft
   def self.logger(name, level = nil)
     Logging::Logger[name].tap do |logger|
       logger.level = level if level
-      logger.instance_variable_set :@logdev, OpenStruct.new(dev: STDOUT)
+      logger.instance_variable_set :@logdev, Struct.new(:dev).new(STDOUT)
       logger.define_singleton_method :dup do
         super().tap do |logger_copy|
           Logging::Logger.define_log_methods logger_copy
