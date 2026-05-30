@@ -12,6 +12,8 @@ module Logcraft
 
   extend LogContextHelper
 
+  STDOUT_LOG_DEVICE = Struct.new(:dev).new(STDOUT).freeze
+
   def self.initialize(log_level: :info, global_context: {}, layout_options: {})
     Logging.logger.root.appenders = Logging.appenders.stdout layout: LogLayout.new(global_context, layout_options)
     Logging.logger.root.level = log_level
@@ -20,7 +22,7 @@ module Logcraft
   def self.logger(name, level = nil)
     Logging::Logger[name].tap do |logger|
       logger.level = level if level
-      logger.instance_variable_set :@logdev, Struct.new(:dev).new(STDOUT)
+      logger.instance_variable_set :@logdev, STDOUT_LOG_DEVICE
       logger.define_singleton_method :dup do
         super().tap do |logger_copy|
           Logging::Logger.define_log_methods logger_copy
