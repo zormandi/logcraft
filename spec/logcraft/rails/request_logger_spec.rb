@@ -1,17 +1,9 @@
 # frozen_string_literal: true
 
-require 'ostruct'
-
 RSpec.describe Logcraft::Rails::RequestLogger do
   let(:middleware) { described_class.new app, Logcraft.logger('AccessLog'), config }
-  let(:config) { OpenStruct.new config_options }
-  let(:config_options) do
-    {
-      log_only_whitelisted_params: false,
-      whitelisted_params: [:controller, :action],
-      exclude_paths: []
-    }
-  end
+  let(:config_struct) { Struct.new(:log_only_whitelisted_params, :whitelisted_params, :exclude_paths) }
+  let(:config) { config_struct.new(false, [:controller, :action], []) }
 
   describe '#call' do
     subject(:call) do
