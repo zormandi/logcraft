@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3] - 2026-07-28
+### Changed
+- Replaced `OpenStruct` with a plain `Struct` for the internal STDOUT log device, removing the reliance on
+  `ostruct` — which is no longer a default gem in current Ruby versions. The Struct is now created once and
+  shared instead of per logger.
+  (https://github.com/zormandi/logcraft/pull/13, https://github.com/zormandi/logcraft/pull/14)
+
+Thanks to [@jbigler](https://github.com/jbigler) for both contributions.
+
 ## [2.2.1] - 2023-12-19
 ### Fixed
 - Fixed an issue where logs were duplicated (once in JSON, once in plain text) when running the Rails console.
