@@ -20,7 +20,7 @@ Logcraft 3 supports:
 * [Rails](https://rubyonrails.org/) 7.1 and up (tested with 7.1, 7.2 and 8.0)
 
 > [!NOTE]
-> If you're using Ruby 3.1 or earlier along with Rails 7.0 or earlier, then take a look at [Logcraft 2.2.1](https://github.com/zormandi/logcraft/tree/v2.2.1).
+> If you're using Ruby 3.1 or earlier along with Rails 7.0 or earlier, then take a look at [Logcraft 2.3](https://github.com/zormandi/logcraft/tree/v2.3).
 
 ## Table of contents
 
