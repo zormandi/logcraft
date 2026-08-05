@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - Unreleased
+### Added
+- Added support for Rails 8.0.
+- Added `ActionController::LogSubscriber` to replace `RequestLogger`.
+
+### Changed
+- Reorganized log fields to follow Datadog's logical grouping.
+- Changed the scale of the duration field from ms to ns.
+- Reorganized Rails "extensions".
+
+### Removed
+- Dropped support for end-of-life Ruby and Rails versions.
+- Dropped support for legacy Rails log subscriber handling.
+
 ## [2.3] - 2026-07-28
 ### Changed
 - Replaced `OpenStruct` with a plain `Struct` for the internal STDOUT log device, removing the reliance on
